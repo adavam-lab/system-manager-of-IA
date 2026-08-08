@@ -53,7 +53,7 @@
       "license": "LICENSE",
       "installerSidebar": "public/donate-adam.png",
       "uninstallerSidebar": "public/donate-adam.png",
-      "include": "build/installer.nsh"
+      "include": "installer.nsh"
     },
     "mac": {
       "target": [

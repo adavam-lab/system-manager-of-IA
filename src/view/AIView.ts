@@ -182,10 +182,11 @@ export class AIView {
     }
 
     public showLoader(): void {
-        if (this.loadingOverlay) {
-            this.loadingOverlay.style.opacity = '1';
-            this.loadingOverlay.style.pointerEvents = 'all';
-        }
+        // Se ha desactivado el overlay gigante porque bloquea interacciones de inicio de sesión
+        // if (this.loadingOverlay) {
+        //     this.loadingOverlay.style.opacity = '1';
+        //     this.loadingOverlay.style.pointerEvents = 'all';
+        // }
         this.toolbarStatus?.classList.add('loading');
     }
 

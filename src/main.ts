@@ -14,9 +14,7 @@ import { session } from 'electron';
 // Optimizar consumo (Se eliminaron flags de GPU porque rompían los menús desplegables <select> nativos de Windows)
 app.commandLine.appendSwitch('enable-low-end-device-mode');
 
-// Set user agent globally to bypass Google sign-in restrictions (fixes "Couldn't sign you in" error)
-const FIREFOX_USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:130.0) Gecko/20100101 Firefox/130.0';
-app.userAgentFallback = FIREFOX_USER_AGENT;
+// We dynamically generate the User-Agent in app.on('ready') instead of hardcoding Firefox.
 
 function createMainWindow() {
     mainWindow = new BrowserWindow({
@@ -43,39 +41,16 @@ function createMainWindow() {
         mainWindow?.show();
     });
 
-    mainWindow.on('close', (event) => {
-        if (!isQuiting) {
-            event.preventDefault();
-            mainWindow?.hide();
-        }
+    mainWindow.on('close', () => {
+        mainWindow = null;
     });
 }
 
 app.on('ready', () => {
-    // Override headers for all requests to ensure Google doesn't detect the embedded Chromium
-    const overrideHeaders = (sess: Electron.Session) => {
-        sess.webRequest.onBeforeSendHeaders((details, callback) => {
-            details.requestHeaders['User-Agent'] = FIREFOX_USER_AGENT;
-            // Delete Chromium specific headers that Google uses to detect Electron
-            delete details.requestHeaders['sec-ch-ua'];
-            delete details.requestHeaders['sec-ch-ua-mobile'];
-            delete details.requestHeaders['sec-ch-ua-platform'];
-            callback({ cancel: false, requestHeaders: details.requestHeaders });
-        });
-    };
-
-    overrideHeaders(session.defaultSession);
-    
-    // Intercept any new session created (e.g. for custom dynamically added AIs)
-    app.on('session-created', (sess) => {
-        overrideHeaders(sess);
-    });
-    
-    // Also apply to existing persist partitions manually just in case they were created early
-    const partitions = ['persist:deepseek', 'persist:chatgpt', 'persist:gemini', 'persist:kimi'];
-    partitions.forEach(partition => {
-        overrideHeaders(session.fromPartition(partition));
-    });
+    // Hemos eliminado la modificación del User-Agent en TODAS las IAs.
+    // Esto asegura que el inicio de sesión de Google (y otros métodos de auth)
+    // funcionen de manera nativa sin desencadenar bloqueos de seguridad o Passkeys
+    // en ninguna plataforma, tal como funcionaba en deepseek-desktop.
 
     createMainWindow();
 });
@@ -126,7 +101,8 @@ app.on('web-contents-created', (event, contents) => {
                     modal: false,
                     webPreferences: {
                         nodeIntegration: false,
-                        contextIsolation: true
+                        contextIsolation: true,
+                        session: contents.session
                     }
                 }
             };
