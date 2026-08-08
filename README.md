@@ -3,7 +3,7 @@
 <div align="center">
   <img src="./home.png.jpg" alt="Adam IA Dashboard" width="800">
   <br><br>
-  <a href="https://github.com/adavam/adam-ia/releases/download/RELEASE/Adam.IA.Setup.1.0.7.exe">
+  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA.Setup.1.0.7.exe">
     <img src="https://img.shields.io/badge/Descargar_Adam_IA_para_Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Descargar Adam IA">
   </a>
 </div>
@@ -30,7 +30,7 @@
 
 ### Opción 1: Descargar el Instalador (Recomendado)
 1. Descarga el instalador directamente desde las descargas de este repositorio:
-   [**Descargar Adam IA 1.0.7 para Windows**](https://github.com/adavam/adam-ia/releases/download/RELEASE/Adam.IA.Setup.1.0.7.exe)
+   [**Descargar Adam IA 1.0.7 para Windows**](https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA.Setup.1.0.7.exe)
 2. Ejecuta el archivo `.exe` y sigue los pasos del asistente de instalación.
 3. Abre **Adam IA** y comienza a chatear.
 

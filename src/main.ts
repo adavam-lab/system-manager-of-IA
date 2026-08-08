@@ -46,7 +46,20 @@ function createMainWindow() {
     });
 }
 
-app.on('ready', () => {
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+    app.quit();
+} else {
+    app.on('second-instance', (event, commandLine, workingDirectory) => {
+        // Si el usuario intenta abrir una segunda instancia, enfocamos la principal
+        if (mainWindow) {
+            if (mainWindow.isMinimized()) mainWindow.restore();
+            mainWindow.focus();
+        }
+    });
+
+    app.on('ready', () => {
     // Hemos eliminado la modificación del User-Agent en TODAS las IAs.
     // Esto asegura que el inicio de sesión de Google (y otros métodos de auth)
     // funcionen de manera nativa sin desencadenar bloqueos de seguridad o Passkeys
@@ -113,3 +126,4 @@ app.on('web-contents-created', (event, contents) => {
         return { action: 'deny' };
     });
 });
+} // Closing brace for the single instance lock else block
