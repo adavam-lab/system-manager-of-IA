@@ -4,7 +4,13 @@
   <img src="./home.png.jpg" alt="Adam IA Dashboard" width="800">
   <br><br>
   <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA.Setup.1.0.7.exe">
-    <img src="https://img.shields.io/badge/Descargar_Adam_IA_para_Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Descargar Adam IA">
+    <img src="https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Descargar para Windows">
+  </a>
+  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA-1.0.7-arm64.dmg">
+    <img src="https://img.shields.io/badge/macOS_(Apple_Silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Descargar para Mac Apple Silicon">
+  </a>
+  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA-1.0.7.dmg">
+    <img src="https://img.shields.io/badge/macOS_(Intel)-555555?style=for-the-badge&logo=apple&logoColor=white" alt="Descargar para Mac Intel">
   </a>
 </div>
 
@@ -20,6 +26,7 @@
   - **ChatGPT**
   - **Gemini**
   - **Kimi**
+  - **GitHub Copilot**
 - **Vinculación de IAs Personalizadas**: Añade cualquier otra plataforma (como Claude, HuggingChat, Perplexity, etc.) ingresando su nombre, URL y seleccionando un color temático para identificarla.
 - **Aislamiento de Sesiones**: Cada herramienta funciona en un entorno aislado (`partition` dedicada), garantizando que las sesiones e inicios de sesión de cada cuenta permanezcan guardados de forma persistente y no entren en conflicto.
 - **Navegación Intuitiva**: Barra lateral colapsable, controles de navegación superior (Atrás, Adelante, Recargar) y redirección automática de enlaces a tu navegador externo por seguridad.
@@ -29,10 +36,12 @@
 ## 📥 **Cómo Instalar**
 
 ### Opción 1: Descargar el Instalador (Recomendado)
-1. Descarga el instalador directamente desde las descargas de este repositorio:
-   [**Descargar Adam IA 1.0.7 para Windows**](https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA.Setup.1.0.7.exe)
-2. Ejecuta el archivo `.exe` y sigue los pasos del asistente de instalación.
-3. Abre **Adam IA** y comienza a chatear.
+
+Descarga el instalador correspondiente a tu sistema operativo desde las descargas de este repositorio:
+
+- 🪟 **Windows**: [**Descargar Adam IA 1.0.7 (.exe)**](https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA.Setup.1.0.7.exe)
+- 🍎 **macOS (Apple Silicon - M1/M2/M3/M4)**: [**Descargar Adam IA 1.0.7 (.dmg ARM64)**](https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA-1.0.7-arm64.dmg)
+- 🍏 **macOS (Intel)**: [**Descargar Adam IA 1.0.7 (.dmg x64)**](https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA-1.0.7.dmg)
 
 ### Opción 2: Compilar desde el Código Fuente (Desarrolladores)
 Si deseas ejecutar o compilar el proyecto tú mismo en un entorno local, asegúrate de tener instalados **[Node.js](https://nodejs.org/)** y **[Git](https://git-scm.com/)**. Luego sigue estos pasos:
