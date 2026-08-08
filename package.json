@@ -7,7 +7,8 @@
     "start": "tsc && electron .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && electron-builder",
-    "build-ts": "tsc"
+    "build-ts": "tsc",
+    "clean": "rm -rf dist dist-js"
   },
   "keywords": [],
   "author": "Edaniel Valencia & Adavam",
@@ -36,6 +37,7 @@
       "index.css",
       "public/**/*"
     ],
+    "icon": "public/icon.png",
     "win": {
       "target": [
         {
@@ -45,12 +47,15 @@
           ]
         }
       ],
-      "icon": "public/app-logo.png"
+      "icon": "public/icon.png"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "license": "LICENSE",
+      "installerIcon": "public/icon.png",
+      "uninstallerIcon": "public/icon.png",
+      "installerHeaderIcon": "public/icon.png",
       "installerSidebar": "public/donate-adam.png",
       "uninstallerSidebar": "public/donate-adam.png",
       "include": "installer.nsh"
@@ -60,11 +65,12 @@
         {
           "target": "dmg",
           "arch": [
-            "x64"
+            "x64",
+            "arm64"
           ]
         }
       ],
-      "icon": "public/app-logo.png"
+      "icon": "public/icon.png"
     },
     "linux": {
       "target": [
@@ -75,7 +81,7 @@
           ]
         }
       ],
-      "icon": "public/app-logo.png"
+      "icon": "public/icon.png"
     }
   }
 }

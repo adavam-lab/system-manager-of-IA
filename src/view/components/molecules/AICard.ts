@@ -30,7 +30,7 @@ export class AICard {
         let avatarHtml = '';
         if (data.iconBase64) {
             avatarHtml = `<div class="ai-icon-container" style="background-color: transparent; border: none; padding: 0;">
-                <img src="${data.iconBase64}" alt="${data.name}" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;">
+                <img src="${data.iconBase64}" alt="${data.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>`;
         } else {
             avatarHtml = Avatar.render(data.name, data.color);

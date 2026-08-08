@@ -1,4 +1,5 @@
-import { app, BrowserWindow, shell } from 'electron';
+import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -11,8 +12,8 @@ let isQuiting = false;
 
 import { session } from 'electron';
 
-// Optimizar consumo (Se eliminaron flags de GPU porque rompían los menús desplegables <select> nativos de Windows)
-app.commandLine.appendSwitch('enable-low-end-device-mode');
+// Disable security warnings in dev mode (they don't show in prod anyway)
+process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
 
 // We dynamically generate the User-Agent in app.on('ready') instead of hardcoding Firefox.
 
@@ -24,12 +25,12 @@ function createMainWindow() {
         minWidth: 1000,
         backgroundColor: '#0a0a0c', // Prevents white flash before rendering HTML
         show: false, // Don't show the window until it is ready
-        icon: path.join(__dirname, '..', 'public', 'app-logo.png'), // Point to public/app-logo.png
+        icon: path.join(__dirname, '..', 'public', 'icon.png'), // Point to public/icon.png
         webPreferences: {
             nodeIntegration: false,
             contextIsolation: true,
             webviewTag: true, // Enable <webview> tag usage
-            preload: path.join(__dirname, 'preload.js'), // preload.js compiles to the same dist-js/ folder
+            preload: path.join(__dirname, 'preload.cjs'), // preload.cjs compiled from preload.cts
             backgroundThrottling: true, // Reduce CPU/RAM usage when the app is in background
         },
         autoHideMenuBar: true,
@@ -39,6 +40,7 @@ function createMainWindow() {
 
     mainWindow.once('ready-to-show', () => {
         mainWindow?.show();
+        // mainWindow?.webContents.openDevTools();
     });
 
     mainWindow.on('close', () => {
@@ -64,6 +66,55 @@ if (!gotTheLock) {
     // Esto asegura que el inicio de sesión de Google (y otros métodos de auth)
     // funcionen de manera nativa sin desencadenar bloqueos de seguridad o Passkeys
     // en ninguna plataforma, tal como funcionaba en deepseek-desktop.
+
+    if (process.platform === 'darwin' && app.dock) {
+        app.dock.setIcon(path.join(__dirname, '..', 'public', 'icon.png'));
+    }
+
+    const iconsPath = path.join(app.getPath('userData'), 'icons');
+    if (!fs.existsSync(iconsPath)) {
+        fs.mkdirSync(iconsPath, { recursive: true });
+    }
+
+    ipcMain.handle('save-icon', async (event, id, base64Data) => {
+        try {
+            const filePath = path.join(iconsPath, `${id}.webp`);
+            const base64Image = base64Data.split(';base64,').pop();
+            if (base64Image) {
+                fs.writeFileSync(filePath, base64Image, { encoding: 'base64' });
+            }
+            return `file://${filePath}`;
+        } catch (e) {
+            console.error('Failed to save icon', e);
+            return null;
+        }
+    });
+
+    ipcMain.handle('delete-icon', async (event, id) => {
+        try {
+            const filePath = path.join(iconsPath, `${id}.webp`);
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+            return true;
+        } catch (e) {
+            console.error('Failed to delete icon', e);
+            return false;
+        }
+    });
+
+    ipcMain.handle('get-icon-path', async (event, id) => {
+        try {
+            const filePath = path.join(iconsPath, `${id}.webp`);
+            if (fs.existsSync(filePath)) {
+                return `file://${filePath}`;
+            }
+            return null;
+        } catch (e) {
+            console.error('Failed to get icon path', e);
+            return null;
+        }
+    });
 
     createMainWindow();
 });
