@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adam IA</title>
+    <link rel="stylesheet" href="index.css">
+    <script type="module" src="dist-js/controller/AIController.js"></script>
+</head>
+<body>
+    <!-- Pantalla de Carga Inicial -->
+    <div id="app-startup-loader" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0a0a0c; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; gap: 20px; transition: opacity 0.5s ease;">
+        <img src="public/app-logo.png" alt="Adam IA Logo" style="width: 110px; height: 110px; border-radius: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08); animation: pulseLogo 2s infinite ease-in-out;">
+        <div style="text-align: center;">
+            <h2 style="font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 8px; font-family: 'Outfit', sans-serif;">Adam IA</h2>
+            <p style="color: var(--text-secondary); font-size: 0.95rem; font-weight: 500; font-family: 'Outfit', sans-serif;" id="startup-loader-text">Cargando Adam IA... Preparando todo para ti.</p>
+        </div>
+        
+        <div class="loading-progress-container">
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill"></div>
+            </div>
+            <div class="progress-percentage" id="progress-percentage" style="position: absolute; left: 50%; transform: translateX(-50%); top: 100%; margin-top: 8px; font-size: 0.95rem; font-weight: 600; color: var(--text-secondary);">0%</div>
+        </div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="brand-title">ADAM IA</span>
+                <button class="toggle-btn" id="toggle-sidebar" title="Expandir/Colapsar">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            
+            <ul class="menu-list" id="sidebar-menu">
+                <li class="menu-item home-btn active" data-target="home" data-tooltip="Inicio">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span class="menu-label">Inicio</span>
+                </li>
+                
+                <li class="menu-item deepseek-btn" data-target="deepseek" data-tooltip="DeepSeek">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"></path>
+                        <path d="M12 6v12M8 10h8M9 14h6"></path>
+                    </svg>
+                    <span class="menu-label">DeepSeek</span>
+                </li>
+                
+                <li class="menu-item chatgpt-btn" data-target="chatgpt" data-tooltip="ChatGPT">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4.5 16.5c-1.5-1.25-2.5-3-2.5-5 0-3.86 3.14-7 7-7 2.5 0 4.7 1.3 6 3.25M19.5 7.5c1.5 1.25 2.5 3 2.5 5 0 3.86-3.14 7-7 7-2.5 0-4.7-1.3-6-3.25"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span class="menu-label">ChatGPT</span>
+                </li>
+                
+                <li class="menu-item gemini-btn" data-target="gemini" data-tooltip="Gemini">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20M2 12h20M12 2L8.5 8.5 2 12l6.5 3.5L12 22l3.5-6.5L22 12l-6.5-3.5z"></path>
+                    </svg>
+                    <span class="menu-label">Gemini</span>
+                </li>
+
+                
+                <li class="menu-item kimi-btn" data-target="kimi" data-tooltip="Kimi">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                    </svg>
+                    <span class="menu-label">Kimi</span>
+                </li>
+
+                <li class="menu-item soporte-btn" data-target="soporte" data-tooltip="Soporte" style="margin-top: 15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px; width: 100%;">
+                    <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span class="menu-label">Soporte</span>
+                </li>
+            </ul>
+            
+            <div class="sidebar-footer" style="padding: 15px 10px; text-align: center; border-top: 1px solid var(--border-glass); width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;">
+                
+                <a href="#" id="sidebar-donate-btn" class="paypal-img-btn" style="margin-bottom: 10px; width: 90%; display: flex; justify-content: center; align-items: center; transition: all 0.3s ease; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); box-shadow: 0 4px 15px rgba(0,0,0,0.3); background-color: rgba(255,255,255,0.02);" title="Donar con PayPal">
+                    <img src="public/donate-adam.png" alt="Donar con PayPal" style="width: 100%; height: auto; display: block; transition: transform 0.3s ease;">
+                </a>
+                
+                <span class="menu-label" style="font-size: 0.75rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px;">Creado por</span>
+                <span class="menu-label" style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 600;">Edaniel Valencia & Adavam</span>
+            </div>
+        </aside>
+
+        <!-- Main Content Screens -->
+        <main class="main-content">
+            
+            <!-- Dashboard (Home Screen) -->
+            <section class="view-screen active" id="view-home">
+                <div class="dashboard-view">
+                    <header class="dashboard-header">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 15px; text-align: center;">
+                            <div>
+                                <h1>Adam IA</h1>
+                                <p>Accede a tus herramientas de IA en un entorno local seguro e independiente.</p>
+                            </div>
+                            <div class="dashboard-tools" style="display: flex; gap: 10px; align-items: center; background: rgba(255,255,255,0.03); padding: 8px 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; justify-content: center;">
+                                <div class="search-box" style="position: relative;">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--text-muted);">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                    <input type="text" id="search-ai-input" placeholder="Buscar IA..." style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-glass); padding: 6px 10px 6px 32px; border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.3s ease;">
+                                </div>
+                                <div class="sort-box" style="display: flex; align-items: center; gap: 5px;">
+                                    <label for="sort-ai-select" style="font-size: 0.85rem; color: var(--text-muted);">Ver:</label>
+                                    <select id="sort-ai-select" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-glass); padding: 6px; border-radius: 8px; color: var(--text-primary); font-family: inherit; font-size: 0.85rem; outline: none; cursor: pointer;">
+                                        <option value="category" style="background: var(--bg-surface); color: var(--text-primary);">Agrupado por Categoría</option>
+                                        <option value="name" style="background: var(--bg-surface); color: var(--text-primary);">Todos (A-Z)</option>
+                                    </select>
+                                </div>
+                                <button id="manage-categories-btn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem; display: flex; align-items: center; gap: 5px;" title="Gestionar Categorías">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                                    </svg>
+                                    Categorías
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div class="ai-grid" id="ai-grid">
+                        <div class="ai-card deepseek" data-target="deepseek">
+                            <button class="card-delete-btn" title="Eliminar IA" data-id="deepseek">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                            <div class="ai-icon-container">
+                                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2z"></path>
+                                    <path d="M12 6v12M8 10h8M9 14h6"></path>
+                                </svg>
+                            </div>
+                            <h3>DeepSeek</h3>
+                            <p>Modelo de razonamiento avanzado, ideal para programación, lógica y análisis complejo.</p>
+                        </div>
+
+                        <div class="ai-card chatgpt" data-target="chatgpt">
+                            <button class="card-delete-btn" title="Eliminar IA" data-id="chatgpt">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                            <div class="ai-icon-container">
+                                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4.5 16.5c-1.5-1.25-2.5-3-2.5-5 0-3.86 3.14-7 7-7 2.5 0 4.7 1.3 6 3.25M19.5 7.5c1.5 1.25 2.5 3 2.5 5 0 3.86-3.14 7-7 7-2.5 0-4.7-1.3-6-3.25"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </div>
+                            <h3>ChatGPT</h3>
+                            <p>El chatbot estrella de OpenAI, versátil para redacción, ideas generales y tareas del día a día.</p>
+                        </div>
+
+                        <div class="ai-card gemini" data-target="gemini">
+                            <button class="card-delete-btn" title="Eliminar IA" data-id="gemini">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                            <div class="ai-icon-container">
+                                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2v20M2 12h20M12 2L8.5 8.5 2 12l6.5 3.5L12 22l3.5-6.5L22 12l-6.5-3.5z"></path>
+                                </svg>
+                            </div>
+                            <h3>Gemini</h3>
+                            <p>Asistente multimodal de Google, excelente para buscar información y procesar múltiples formatos.</p>
+                        </div>
+
+
+                        <div class="ai-card kimi" data-target="kimi">
+                            <button class="card-delete-btn" title="Eliminar IA" data-id="kimi">
+                                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                </svg>
+                            </button>
+                            <div class="ai-icon-container">
+                                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                                </svg>
+                            </div>
+                            <h3>Kimi</h3>
+                            <p>Asistente experto en lectura de textos largos, PDFs y extracción de datos con gran contexto.</p>
+                        </div>
+
+                        <!-- Botón para agregar nueva IA -->
+                        <div class="ai-card add-card" id="add-ai-btn">
+                            <div class="ai-icon-container">
+                                <svg viewBox="0 0 24 24" width="36" height="36" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                </svg>
+                            </div>
+                            <h3>Agregar IA</h3>
+                            <p>Vincula una nueva plataforma de IA ingresando su nombre y dirección URL.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Chat View (Webviews container) -->
+            <section class="view-screen" id="view-chat">
+                <header class="chat-toolbar">
+                    <div class="toolbar-left">
+                        <button class="toolbar-btn" id="toolbar-back" title="Atrás">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="19" y1="12" x2="5" y2="12"></line>
+                                <polyline points="12 19 5 12 12 5"></polyline>
+                            </svg>
+                        </button>
+                        <button class="toolbar-btn" id="toolbar-forward" title="Adelante">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                <polyline points="12 5 19 12 12 19"></polyline>
+                            </svg>
+                        </button>
+                        <button class="toolbar-btn" id="toolbar-refresh" title="Recargar">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                            </svg>
+                        </button>
+                        <span class="active-ai-name" id="active-ai-name">
+                            <span class="status-indicator" id="toolbar-status"></span>
+                            <span>IA</span>
+                        </span>
+                    </div>
+                    
+                    <div class="toolbar-right">
+                        <button class="toolbar-btn" id="toolbar-home" title="Ir al Inicio">
+                            <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+                </header>
+                
+                <div class="webview-container" id="webview-container">
+                    <!-- Webview Loaders -->
+                    <div class="loading-overlay" id="loading-overlay">
+                        <div class="spinner"></div>
+                        <p>Cargando Inteligencia Artificial...</p>
+                    </div>
+                    
+                    <!-- Webviews -->
+                    <webview id="wv-deepseek" src="https://chat.deepseek.com/" partition="persist:deepseek" allowpopups></webview>
+                    
+                    <webview id="wv-chatgpt" src="https://chatgpt.com/" partition="persist:chatgpt" allowpopups></webview>
+                    
+                    <webview id="wv-gemini" src="https://gemini.google.com/" partition="persist:gemini" allowpopups></webview>
+
+                    
+                    <webview id="wv-kimi" src="https://kimi.moonshot.cn/" partition="persist:kimi" allowpopups></webview>
+                </div>
+            </section>
+
+
+
+            <!-- Soporte View -->
+            <section class="view-screen" id="view-soporte">
+                <div class="dashboard-view" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; max-width: 500px; margin: 0 auto; min-height: calc(100vh - 80px);">
+                    <div style="position: relative; background-color: var(--bg-surface); backdrop-filter: blur(12px); border: 1px solid var(--border-glass-hover); padding: 40px 30px; border-radius: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; gap: 20px; width: 100%;">
+                        <button id="close-soporte-btn" style="position: absolute; right: 20px; top: 15px; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer; line-height: 1;" title="Cerrar">&times;</button>
+                        <img src="public/app-logo.png" alt="Logo" style="width: 90px; height: 90px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                        <h2 style="font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Soporte Técnico</h2>
+                        <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                            Para cualquier consulta, reporte de errores o ayuda relacionada con la aplicación <strong>Adam IA</strong>, por favor visita nuestro sitio web oficial.
+                        </p>
+                        
+                        <div style="margin: 10px 0; padding: 15px 20px; border-radius: 12px; background-color: rgba(255,255,255,0.02); border: 1px solid var(--border-glass); width: 100%; text-align: left; display: flex; flex-direction: column; gap: 10px;">
+                            <div>
+                                <span style="font-weight: 600; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Creado por</span>
+                                <div style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-top: 2px;">Edaniel Valencia & Adavam</div>
+                            </div>
+                            <div style="border-top: 1px solid rgba(255,255,255,0.04); padding-top: 10px;">
+                                <span style="font-weight: 600; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Sitio Oficial</span>
+                                <div style="margin-top: 4px;">
+                                    <a href="https://adavam.com" target="_blank" style="color: #a78bfa; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 1.05rem;">
+                                        adavam.com
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle;">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div style="border-top: 1px solid rgba(255,255,255,0.04); padding-top: 10px; display: flex; flex-direction: column; gap: 6px;">
+                                <span style="font-weight: 600; color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">Apoyar el Proyecto (Donaciones)</span>
+                                <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 4px;">
+                                    <a href="https://www.paypal.com/ncp/payment/YCEAHBRHCUGYS" target="_blank" style="color: #60a5fa; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem;">
+                                        PayPal Directo (Tarjeta/Saldo)
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                    <a href="https://paypal.me/edanielvalencia" target="_blank" style="color: #60a5fa; font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; font-size: 0.95rem;">
+                                        PayPal.me (Edaniel Valencia)
+                                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 10px;">Versión 1.0.7 &copy; <span id="copyright-year">2026</span> Edaniel Valencia & Adavam. Todos los derechos reservados.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modal para Agregar/Editar IA -->
+    <!-- (Existing add-ai-modal) -->
+
+    <!-- Modal para Gestionar Categorías -->
+    <!-- (Existing categories-modal) -->
+
+    <div class="modal-overlay" id="add-ai-modal">
+        <div class="modal-content">
+            <header class="modal-header">
+                <h2 id="add-ai-modal-title">Agregar Nueva Plataforma</h2>
+                <button class="close-modal-btn" id="close-modal-btn">&times;</button>
+            </header>
+            <form id="add-ai-form">
+                <input type="hidden" id="edit-ai-id" value="">
+                <div class="form-group">
+                    <label for="ai-name">Nombre de la Plataforma</label>
+                    <input type="text" id="ai-name" required placeholder="Ej: HuggingChat, Poe, Perplexity...">
+                </div>
+                <div class="form-group">
+                    <label for="ai-url">URL de la IA</label>
+                    <input type="url" id="ai-url" required placeholder="Ej: https://huggingface.co/chat">
+                </div>
+                <div class="form-group">
+                    <label for="ai-category">Categoría (Opcional)</label>
+                    <select id="ai-category" style="width: 100%; background-color: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-glass); border-radius: 8px; color: var(--text-primary); padding: 10px 14px; font-family: inherit; font-size: 0.95rem; outline: none; transition: border-color 0.3s ease; appearance: auto; cursor: pointer;">
+                        <option value="" style="background: var(--bg-surface);">Sin categoría</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ícono de la Plataforma (Imagen opcional)</label>
+                    <div id="icon-drop-zone" style="border: 2px dashed var(--border-glass); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; position: relative; background: rgba(255,255,255,0.02); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100px;">
+                        <input type="file" id="ai-icon" accept="image/*" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: pointer;">
+                        <div id="drop-zone-text" style="pointer-events: none;">
+                            <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 5px; color: var(--text-muted);">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <p style="margin: 0; font-size: 0.9rem; color: var(--text-primary);">Arrastra una imagen o haz clic</p>
+                        </div>
+                        <div id="drop-zone-preview" style="display: none; pointer-events: none; text-align: center;">
+                            <img src="" id="icon-preview-img" style="max-width: 60px; max-height: 60px; border-radius: 50%; object-fit: contain; margin: 0 auto;">
+                            <p id="icon-preview-name" style="margin: 5px 0 0 0; font-size: 0.75rem; color: #a78bfa; word-break: break-all;"></p>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 5px;">Se puede arrastrar una imagen desde tu PC o de otra página web.</p>
+                </div>
+                <div class="form-group">
+                    <label for="ai-color">Color de Identificación</label>
+                    <div class="color-picker-container">
+                        <input type="color" id="ai-color" value="#8b5cf6">
+                        <span class="color-preview-text">Este color se usará en el diseño</span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-ai-btn">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal para Gestionar Categorías -->
+    <div class="modal-overlay" id="categories-modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <header class="modal-header">
+                <h2>Gestionar Categorías</h2>
+                <button class="close-modal-btn" id="close-categories-modal-btn">&times;</button>
+            </header>
+            <div style="margin-bottom: 20px;">
+                <form id="add-category-form" style="display: flex; gap: 10px; align-items: flex-end;">
+                    <div class="form-group" style="margin-bottom: 0; flex: 1;">
+                        <label for="cat-name">Nueva Categoría</label>
+                        <input type="text" id="cat-name" required placeholder="Ej: Trabajo, Diseño...">
+                    </div>
+                    <div class="form-group" style="margin-bottom: 0; width: 60px;">
+                        <label for="cat-color">Color</label>
+                        <input type="color" id="cat-color" value="#a78bfa" style="width: 100%; height: 38px; padding: 0; border: none; border-radius: 8px; cursor: pointer;">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="height: 38px; padding: 0 15px;">Añadir</button>
+                </form>
+            </div>
+            <div id="categories-list" style="max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border-glass); padding-top: 15px;">
+                <!-- Categories will be rendered here -->
+            </div>
+            <div class="modal-footer" style="margin-top: 20px;">
+                <button type="button" class="btn btn-secondary" id="done-categories-btn" style="width: 100%;">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Donación / Apoyo -->
+    <div class="modal-overlay" id="donate-modal">
+        <div class="modal-content" style="max-width: 420px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 15px; padding: 30px 25px;">
+            <header class="modal-header" style="width: 100%; border-bottom: none; padding-bottom: 0; display: flex; justify-content: center; position: relative;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; background: linear-gradient(135deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Apoyar a Adam IA</h2>
+                <button class="close-modal-btn" id="close-donate-modal-btn" style="position: absolute; right: 0; top: 0; background: none; border: none; font-size: 1.5rem; color: var(--text-muted); cursor: pointer;">&times;</button>
+            </header>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.5; margin-bottom: 10px;">
+                Tu apoyo nos ayuda a seguir mejorando y añadiendo nuevas funciones. Elige el método de donación que prefieras:
+            </p>
+            <div style="display: flex; flex-direction: column; gap: 12px; width: 100%;">
+                <a href="https://www.paypal.com/ncp/payment/YCEAHBRHCUGYS" target="_blank" class="btn btn-primary" style="text-decoration: none; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; padding: 12px; background: linear-gradient(135deg, #0070ba, #003087); border: none; box-shadow: 0 4px 15px rgba(0, 112, 186, 0.3); color: #fff;">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="display: inline-block; vertical-align: middle;">
+                        <path d="M20.01 6.64c-.03-.23-.07-.44-.14-.64a4.42 4.42 0 00-1.42-2.12c-.7-.54-1.63-.82-2.77-.82H8.34c-.45 0-.84.32-.93.77L4.54 18.06c-.05.25.14.48.4.48h3.9c.39 0 .73-.28.8-.66l1.24-6.28a.8.8 0 01.8-.66h2.12c2.44 0 4.31-.99 4.96-3.48c.28-1.07.24-2.03-.75-2.82v.82zM16.64 8.7c-.52 2-2.03 2.82-3.99 2.82h-2.12c-.45 0-.84.32-.93.77l-1.12 5.66c-.05.25.14.48.4.48h2.64c.39 0 .73-.28.8-.66l.84-4.28a.8.8 0 01.8-.66h1.22c2.19 0 3.88-.89 4.47-3.13c.25-.96.22-1.83-.68-2.54a3.86 3.86 0 01-1.5 2.5z"></path>
+                    </svg>
+                    PayPal Directo (Tarjeta/Saldo)
+                </a>
+                <a href="https://paypal.me/edanielvalencia" target="_blank" class="btn btn-secondary" style="text-decoration: none; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; padding: 12px; background: rgba(255,255,255,0.04); border: 1px solid var(--border-glass-hover); color: #fff;">
+                    PayPal.me (Edaniel Valencia)
+                </a>
+            </div>
+            <button class="btn btn-secondary" id="close-donate-modal-btn2" style="width: 100%; margin-top: 5px; background: transparent; border: none; color: var(--text-muted); font-size: 0.85rem; cursor: pointer;">Cerrar</button>
+        </div>
+    </div>
+</body>
+</html>
