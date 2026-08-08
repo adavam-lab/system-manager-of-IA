@@ -1,6 +1,8 @@
 # Adam IA 🚀
 
 <div align="center">
+  <b>Español</b> | <a href="README_EN.md">English</a>
+  <br><br>
   <img src="./home.png.jpg" alt="Adam IA Dashboard" width="800">
   <br><br>
   <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA.Setup.1.0.7.exe">
