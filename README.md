@@ -1,5 +1,13 @@
 # Adam IA 🚀
 
+<div align="center">
+  <img src="./home.png.jpg" alt="Adam IA Dashboard" width="800">
+  <br><br>
+  <a href="https://github.com/adavam/adam-ia/releases/download/RELEASE/Adam.IA.Setup.1.0.7.exe">
+    <img src="https://img.shields.io/badge/Descargar_Adam_IA_para_Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Descargar Adam IA">
+  </a>
+</div>
+
 **Adam IA** es una aplicación de escritorio multiplataforma diseñada para agrupar y organizar tus herramientas de Inteligencia Artificial favoritas en un único panel de control local y seguro. La aplicación te permite chatear de forma independiente con múltiples plataformas y vincular nuevos asistentes personalizados mediante su dirección URL.
 
 ---

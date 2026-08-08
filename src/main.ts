@@ -66,7 +66,12 @@ app.on('ready', () => {
 
     overrideHeaders(session.defaultSession);
     
-    // Also apply to all webview partitions so they inherit the spoofing
+    // Intercept any new session created (e.g. for custom dynamically added AIs)
+    app.on('session-created', (sess) => {
+        overrideHeaders(sess);
+    });
+    
+    // Also apply to existing persist partitions manually just in case they were created early
     const partitions = ['persist:deepseek', 'persist:chatgpt', 'persist:gemini', 'persist:kimi'];
     partitions.forEach(partition => {
         overrideHeaders(session.fromPartition(partition));
