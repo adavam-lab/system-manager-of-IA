@@ -1,0 +1,81 @@
+{
+  "name": "adam-ia",
+  "version": "1.0.7",
+  "type": "module",
+  "main": "dist-js/main.js",
+  "scripts": {
+    "start": "tsc && electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc && electron-builder",
+    "build-ts": "tsc"
+  },
+  "keywords": [],
+  "author": "Edaniel Valencia & Adavam",
+  "license": "ISC",
+  "description": "Una aplicación de escritorio para agrupar múltiples herramientas de Inteligencia Artificial (DeepSeek, ChatGPT, Gemini, Claude, Kimi y plataformas personalizadas) en un entorno local seguro.",
+  "devDependencies": {
+    "@types/node": "^26.2.0",
+    "electron": "^43.3.0",
+    "electron-builder": "^26.15.3",
+    "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adavam/adam-ia"
+  },
+  "build": {
+    "appId": "com.adavam.edaniel_valencia",
+    "productName": "Adam IA",
+    "copyright": "Copyright © 2026 Edaniel Valencia & Adavam",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "dist-js/**/*",
+      "index.html",
+      "index.css",
+      "public/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/app-logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "license": "LICENSE",
+      "installerSidebar": "public/donate-adam.png",
+      "uninstallerSidebar": "public/donate-adam.png",
+      "include": "build/installer.nsh"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/app-logo.png"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "public/app-logo.png"
+    }
+  }
+}
