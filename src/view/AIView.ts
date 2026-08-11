@@ -82,7 +82,7 @@ export class AIView {
         // Start counter
         if (this.progressPercentage) {
             let progress = 0;
-            const duration = 2200;
+            const duration = 800;
             const intervalTime = 30;
             const steps = duration / intervalTime;
             const increment = 100 / steps;
@@ -101,7 +101,7 @@ export class AIView {
             if (this.startupLoaderText) {
                 setTimeout(() => {
                     this.startupLoaderText.textContent = "¡Listo para ti!";
-                }, 1000);
+                }, 300);
             }
 
             setTimeout(() => {
@@ -112,7 +112,7 @@ export class AIView {
                         this.startupLoader.remove();
                     }, 500);
                 }
-            }, 2200);
+            }, 800);
         });
     }
 
