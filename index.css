@@ -81,17 +81,14 @@ body {
     justify-content: space-between;
 }
 
-.brand-title {
-    font-weight: 700;
-    font-size: 1.2rem;
-    background: linear-gradient(135deg, #a78bfa, #818cf8);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.brand-logo {
+    height: 32px;
+    max-width: 125px;
+    object-fit: contain;
     display: none;
-    white-space: nowrap;
 }
 
-.sidebar.expanded .brand-title {
+.sidebar.expanded .brand-logo {
     display: block;
 }
 
@@ -225,6 +222,24 @@ body {
     color: #f87171;
 }
 
+.menu-item.canva-btn.active {
+    background-color: rgba(0, 196, 204, 0.25);
+    border-color: rgba(0, 196, 204, 0.4);
+    color: #00c4cc;
+}
+
+.menu-item.venturikit-btn.active {
+    background-color: rgba(99, 102, 241, 0.25);
+    border-color: rgba(99, 102, 241, 0.4);
+    color: #818cf8;
+}
+
+.menu-item.perplexity-btn.active {
+    background-color: rgba(20, 184, 166, 0.25);
+    border-color: rgba(20, 184, 166, 0.4);
+    color: #2dd4bf;
+}
+
 /* Sidebar Footer */
 .sidebar-footer {
     margin-top: auto;
@@ -338,6 +353,9 @@ body {
     transition: var(--transition-smooth);
     position: relative;
     overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    transform: translateZ(0);
 }
 
 .ai-card::before {
@@ -351,11 +369,14 @@ body {
 }
 
 /* Custom card brands colors & glows */
-.ai-card.deepseek::before { background-color: var(--color-deepseek); }
-.ai-card.chatgpt::before { background-color: var(--color-chatgpt); }
-.ai-card.gemini::before { background-color: var(--color-gemini); }
-.ai-card.claude::before { background-color: var(--color-claude); }
-.ai-card.kimi::before { background-color: var(--color-kimi); }
+.ai-card.deepseek::before { background-color: #4d80f0; }
+.ai-card.chatgpt::before { background-color: #10a37f; }
+.ai-card.gemini::before { background-color: #4285f4; }
+.ai-card.claude::before { background-color: #fbbf24; }
+.ai-card.kimi::before { background-color: #ff4757; }
+.ai-card.canva::before { background-color: #00c4cc; }
+.ai-card.venturikit::before { background-color: #818cf8; }
+.ai-card.perplexity::before { background-color: #2dd4bf; }
 
 .ai-card:hover {
     transform: translateY(-8px);
@@ -368,6 +389,9 @@ body {
 .ai-card.gemini:hover { box-shadow: 0 10px 30px rgba(66, 133, 244, 0.15); }
 .ai-card.claude:hover { box-shadow: 0 10px 30px rgba(217, 119, 6, 0.15); }
 .ai-card.kimi:hover { box-shadow: 0 10px 30px rgba(255, 71, 87, 0.15); }
+.ai-card.canva:hover { box-shadow: 0 10px 30px rgba(0, 196, 204, 0.15); }
+.ai-card.venturikit:hover { box-shadow: 0 10px 30px rgba(99, 102, 241, 0.15); }
+.ai-card.perplexity:hover { box-shadow: 0 10px 30px rgba(20, 184, 166, 0.15); }
 
 .ai-icon-container {
     width: 70px;
@@ -387,11 +411,14 @@ body {
     background-color: rgba(255, 255, 255, 0.07);
 }
 
-.ai-card.deepseek svg { color: var(--color-deepseek); }
-.ai-card.chatgpt svg { color: var(--color-chatgpt); }
-.ai-card.gemini svg { color: var(--color-gemini); }
-.ai-card.claude svg { color: var(--color-claude); }
-.ai-card.kimi svg { color: var(--color-kimi); }
+.ai-card.deepseek svg { color: #4d80f0; }
+.ai-card.chatgpt svg { color: #10a37f; }
+.ai-card.gemini svg { color: #4285f4; }
+.ai-card.claude svg { color: #fbbf24; }
+.ai-card.kimi svg { color: #ff4757; }
+.ai-card.canva svg { color: #00c4cc; }
+.ai-card.venturikit svg { color: #818cf8; }
+.ai-card.perplexity svg { color: #2dd4bf; }
 
 .ai-card h3 {
     font-size: 1.35rem;
@@ -682,6 +709,8 @@ webview.active {
     gap: 15px;
     z-index: 5;
     transition: opacity 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .spinner {

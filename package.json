@@ -1,13 +1,15 @@
 {
   "name": "adam-ia",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "type": "module",
   "main": "dist-js/main.js",
   "scripts": {
-    "start": "tsc && electron .",
+    "start": "tsc && node scripts/start.cjs",
+    "dev": "concurrently \"tsc -w\" \"nodemon --watch dist-js --watch index.html --watch index.css --ext js,html,css --exec \\\"node scripts/start.cjs\\\"\"",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && electron-builder",
-    "build-ts": "tsc"
+    "build-ts": "tsc",
+    "clean": "rm -rf dist dist-js"
   },
   "keywords": [],
   "author": "Edaniel Valencia & Adavam",
@@ -15,8 +17,10 @@
   "description": "Una aplicación de escritorio para agrupar múltiples herramientas de Inteligencia Artificial (DeepSeek, ChatGPT, Gemini, Claude, Kimi y plataformas personalizadas) en un entorno local seguro.",
   "devDependencies": {
     "@types/node": "^26.2.0",
+    "concurrently": "^10.0.4",
     "electron": "^43.3.0",
     "electron-builder": "^26.15.3",
+    "nodemon": "^3.1.14",
     "typescript": "^7.0.2"
   },
   "repository": {
@@ -34,8 +38,10 @@
       "dist-js/**/*",
       "index.html",
       "index.css",
-      "public/**/*"
+      "public/**/*",
+      "!public/img-github/**"
     ],
+    "icon": "public/icon.png",
     "win": {
       "target": [
         {
@@ -45,7 +51,7 @@
           ]
         }
       ],
-      "icon": "public/app-logo.png"
+      "icon": "public/icon.png"
     },
     "nsis": {
       "oneClick": false,
@@ -53,18 +59,19 @@
       "license": "LICENSE",
       "installerSidebar": "public/donate-adam.png",
       "uninstallerSidebar": "public/donate-adam.png",
-      "include": "build/installer.nsh"
+      "include": "installer.nsh"
     },
     "mac": {
       "target": [
         {
           "target": "dmg",
           "arch": [
-            "x64"
+            "x64",
+            "arm64"
           ]
         }
       ],
-      "icon": "public/app-logo.png"
+      "icon": "public/icon.png"
     },
     "linux": {
       "target": [
@@ -75,7 +82,7 @@
           ]
         }
       ],
-      "icon": "public/app-logo.png"
+      "icon": "public/icon.png"
     }
   }
 }

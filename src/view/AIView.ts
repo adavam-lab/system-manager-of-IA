@@ -82,7 +82,7 @@ export class AIView {
         // Start counter
         if (this.progressPercentage) {
             let progress = 0;
-            const duration = 2200;
+            const duration = 800;
             const intervalTime = 30;
             const steps = duration / intervalTime;
             const increment = 100 / steps;
@@ -101,7 +101,7 @@ export class AIView {
             if (this.startupLoaderText) {
                 setTimeout(() => {
                     this.startupLoaderText.textContent = "¡Listo para ti!";
-                }, 1000);
+                }, 300);
             }
 
             setTimeout(() => {
@@ -112,7 +112,7 @@ export class AIView {
                         this.startupLoader.remove();
                     }, 500);
                 }
-            }, 2200);
+            }, 800);
         });
     }
 
@@ -153,7 +153,16 @@ export class AIView {
                 deepseek: 'DeepSeek',
                 chatgpt: 'ChatGPT',
                 gemini: 'Gemini',
-                kimi: 'Kimi'
+                kimi: 'Kimi',
+                copilot: 'GitHub Copilot',
+                claude: 'Claude',
+                canva: 'Canva',
+                venturikit: 'Venturikit',
+                perplexity: 'Perplexity',
+                facebook: 'Facebook',
+                tiktok: 'TikTok',
+                instagram: 'Instagram',
+                x: 'X'
             };
             const customItem = customIAs.find(item => item.id === screen);
             if (this.activeAiNameLabel) {
@@ -182,10 +191,11 @@ export class AIView {
     }
 
     public showLoader(): void {
-        if (this.loadingOverlay) {
-            this.loadingOverlay.style.opacity = '1';
-            this.loadingOverlay.style.pointerEvents = 'all';
-        }
+        // Se ha desactivado el overlay gigante porque bloquea interacciones de inicio de sesión
+        // if (this.loadingOverlay) {
+        //     this.loadingOverlay.style.opacity = '1';
+        //     this.loadingOverlay.style.pointerEvents = 'all';
+        // }
         this.toolbarStatus?.classList.add('loading');
     }
 
@@ -329,6 +339,78 @@ export class AIView {
 
     // Custom AI Webview & Sidebar Injection
     public injectCustomAI(data: CardData, url: string): void {
+        const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'claude', 'kimi', 'copilot', 'canva', 'venturikit', 'perplexity', 'facebook', 'tiktok', 'instagram', 'x'];
+        if (staticAIs.includes(data.id)) {
+            // Update sidebar item
+            const li = document.getElementById(`menu-${data.id}`) || document.querySelector(`.menu-item[data-target="${data.id}"]`);
+            if (li) {
+                const span = li.querySelector('.menu-label');
+                if (span) span.textContent = data.name;
+                
+                if (data.iconBase64) {
+                    const oldSvg = li.querySelector('svg');
+                    if (oldSvg) oldSvg.style.display = 'none';
+                    const oldImg = li.querySelector('img.custom-icon');
+                    if (oldImg) oldImg.remove();
+                    
+                    const img = document.createElement('img');
+                    img.src = data.iconBase64;
+                    img.alt = data.name;
+                    img.className = 'custom-icon';
+                    img.style.width = '24px';
+                    img.style.height = '24px';
+                    img.style.borderRadius = '50%';
+                    img.style.objectFit = 'contain';
+                    if (span) li.insertBefore(img, span);
+                }
+            }
+
+            // Update webview URL
+            const webview = document.getElementById(`wv-${data.id}`);
+            if (webview && webview.getAttribute('src') !== url) {
+                webview.setAttribute('src', url);
+            }
+
+            // Update Card
+            const card = document.querySelector(`.ai-card[data-target="${data.id}"]`);
+            if (card) {
+                const h3 = card.querySelector('h3');
+                if (h3) h3.textContent = data.name;
+                
+                if (data.iconBase64) {
+                    const iconContainer = card.querySelector('.ai-icon-container');
+                    if (iconContainer) {
+                        iconContainer.innerHTML = `<img src="${data.iconBase64}" alt="${data.name}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">`;
+                        (iconContainer as HTMLElement).style.backgroundColor = 'transparent';
+                        (iconContainer as HTMLElement).style.border = 'none';
+                    }
+                }
+                
+                // Ensure edit/delete buttons have correct data-id
+                card.querySelectorAll('.card-action-btn').forEach(btn => btn.setAttribute('data-id', data.id));
+            }
+
+            // Inject styles
+            const style = document.createElement('style');
+            style.innerHTML = `
+                .menu-item[data-target="${data.id}"]:hover,
+                .menu-item[data-target="${data.id}"].active {
+                    background-color: ${data.color}20 !important;
+                    color: ${data.color} !important;
+                }
+                .ai-card[data-target="${data.id}"]:hover {
+                    border-color: ${data.color}60 !important;
+                    box-shadow: 0 10px 30px ${data.color}15 !important;
+                }
+                .ai-card[data-target="${data.id}"]::before {
+                    background-color: ${data.color} !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            return;
+        }
+
         // 1. Add sidebar menu item
         const menuList = this.sidebarMenu;
         const soporteItem = menuList?.querySelector('.soporte-btn');
@@ -366,7 +448,6 @@ export class AIView {
         webview.setAttribute('src', url);
         webview.setAttribute('partition', `persist:${data.id}`);
         webview.setAttribute('allowpopups', '');
-        webview.setAttribute('useragent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36 Edg/128.0.0.0');
 
         this.webviewContainer?.appendChild(webview);
 
@@ -392,6 +473,11 @@ export class AIView {
     }
 
     public removeCustomAIDOM(id: string): void {
+        const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'claude', 'kimi', 'copilot', 'canva', 'venturikit', 'perplexity', 'facebook', 'tiktok', 'instagram', 'x'];
+        if (staticAIs.includes(id)) {
+            return;
+        }
+        
         const webview = document.getElementById(`wv-${id}`);
         const sidebarItem = document.getElementById(`menu-${id}`);
         const card = document.getElementById(`card-${id}`);
@@ -417,10 +503,6 @@ export class AIView {
         const addCard = allCards.find(c => c.id === 'add-ai-btn');
         const aiCards = allCards.filter(c => c.id !== 'add-ai-btn');
         
-        // Remove category headers
-        const headers = this.aiGrid.querySelectorAll('.category-group-header');
-        headers.forEach(h => h.remove());
-        
         // 2. Hide/Show based on query and deleted defaults
         aiCards.forEach(card => {
             const id = card.getAttribute('data-target') || '';
@@ -435,7 +517,9 @@ export class AIView {
             (card as HTMLElement).style.display = isVisible ? 'flex' : 'none';
         });
         
-        // 3. Sorting & Grouping
+        // 3. DocumentFragment for zero-flicker atomic rendering
+        const fragment = document.createDocumentFragment();
+
         if (sort === 'category') {
             const groups: { [key: string]: HTMLElement[] } = {};
             const categoryNames: { [key: string]: string } = {};
@@ -451,28 +535,25 @@ export class AIView {
             aiCards.forEach(card => {
                 if ((card as HTMLElement).style.display === 'none') return;
                 
-                if (!card.classList.contains('custom-ai')) {
+                const id = card.getAttribute('data-target');
+                const aiData = customAIs.find(ai => ai.id === id);
+
+                if (aiData && aiData.categoryId && groups[aiData.categoryId]) {
+                    groups[aiData.categoryId].push(card as HTMLElement);
+                } else if (!card.classList.contains('custom-ai')) {
                     groups['base'].push(card as HTMLElement);
                 } else {
-                    const id = card.getAttribute('data-target');
-                    const aiData = customAIs.find(ai => ai.id === id);
-                    if (aiData && aiData.categoryId && groups[aiData.categoryId]) {
-                        groups[aiData.categoryId].push(card as HTMLElement);
-                    } else {
-                        groups['uncategorized'].push(card as HTMLElement);
-                    }
+                    groups['uncategorized'].push(card as HTMLElement);
                 }
             });
-            
-            this.aiGrid.innerHTML = '';
             
             const appendGroup = (id: string) => {
                 if (groups[id] && groups[id].length > 0) {
                     const header = document.createElement('div');
                     header.className = 'category-group-header';
                     header.innerHTML = `<h2>${categoryNames[id]}</h2>`;
-                    this.aiGrid.appendChild(header);
-                    groups[id].forEach(c => this.aiGrid.appendChild(c));
+                    fragment.appendChild(header);
+                    groups[id].forEach(c => fragment.appendChild(c));
                 }
             };
             
@@ -480,7 +561,7 @@ export class AIView {
             categories.forEach(c => appendGroup(c.id));
             appendGroup('uncategorized');
             
-            if (addCard) this.aiGrid.appendChild(addCard);
+            if (addCard) fragment.appendChild(addCard);
             
         } else {
             // Sort by name
@@ -491,10 +572,12 @@ export class AIView {
                 return nameA.localeCompare(nameB);
             });
             
-            this.aiGrid.innerHTML = '';
-            visibleCards.forEach(c => this.aiGrid.appendChild(c));
-            if (addCard) this.aiGrid.appendChild(addCard);
+            visibleCards.forEach(c => fragment.appendChild(c));
+            if (addCard) fragment.appendChild(addCard);
         }
+
+        // Single atomic DOM replacement: eliminates black frame flickers
+        this.aiGrid.replaceChildren(fragment);
     }
 
     public getCurrentAI(): string | null {

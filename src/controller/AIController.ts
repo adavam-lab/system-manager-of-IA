@@ -22,7 +22,7 @@ export class AIController {
             );
         });
 
-        const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'kimi'];
+        const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'claude', 'kimi', 'copilot', 'canva', 'venturikit', 'perplexity', 'facebook', 'tiktok', 'instagram', 'x'];
         staticAIs.forEach(id => {
             if (this.model.isDefaultDeleted(id)) {
                 this.view.hideDefaultAI(id);
@@ -390,27 +390,34 @@ export class AIController {
         }
     }
 
-    private finishSavingAI(name: string, url: string, color: string, categoryId?: string, editId?: string, iconBase64?: string): void {
-        let finalId = '';
+    private async finishSavingAI(name: string, url: string, color: string, categoryId?: string, editId?: string, iconBase64?: string): Promise<void> {
+        let finalId = editId || `custom-${Date.now()}`;
+        let localIconPath = iconBase64;
+
+        if (iconBase64 && iconBase64.startsWith('data:image') && (window as any).electronAPI) {
+            const path = await (window as any).electronAPI.saveIcon(finalId, iconBase64);
+            if (path) {
+                localIconPath = `${path}?t=${Date.now()}`;
+            }
+        }
+
         if (editId) {
             // Edit mode
-            const updated = this.model.edit(editId, name, url, color, iconBase64, categoryId);
+            const updated = this.model.edit(editId, name, url, color, localIconPath, categoryId);
             if (updated) {
                 this.view.removeCustomAIDOM(editId);
                 this.view.injectCustomAI(
                     { id: updated.id, name: updated.name, color: updated.color, iconBase64: updated.iconBase64 },
                     updated.url
                 );
-                finalId = updated.id;
             }
         } else {
             // Add mode
-            const newAI = this.model.add(name, url, color, iconBase64, categoryId);
+            const newAI = this.model.add(name, url, color, localIconPath, categoryId, finalId);
             this.view.injectCustomAI(
                 { id: newAI.id, name: newAI.name, color: newAI.color, iconBase64: newAI.iconBase64 },
                 newAI.url
             );
-            finalId = newAI.id;
         }
 
         // Bind Webview Listeners
@@ -428,7 +435,7 @@ export class AIController {
     }
 
     private deleteAI(id: string): void {
-        const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'claude', 'kimi'];
+        const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'claude', 'kimi', 'copilot', 'canva', 'venturikit', 'perplexity', 'facebook', 'tiktok', 'instagram', 'x'];
         
         if (staticAIs.includes(id)) {
             if (!confirm(`¿Estás seguro de que quieres eliminar la plataforma por defecto "${id}"?`)) {
@@ -447,6 +454,11 @@ export class AIController {
 
             // Remove from Model & LocalStorage
             this.model.delete(id);
+            
+            // Remove icon file
+            if ((window as any).electronAPI) {
+                (window as any).electronAPI.deleteIcon(id);
+            }
 
             // Remove from DOM
             this.view.removeCustomAIDOM(id);
@@ -460,7 +472,17 @@ export class AIController {
     }
 
     private openEditModal(id: string): void {
-        const ai = this.model.getById(id);
+        let ai = this.model.getById(id);
+        if (!ai) {
+            const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'claude', 'kimi', 'copilot', 'canva', 'venturikit', 'perplexity', 'facebook', 'tiktok', 'instagram', 'x'];
+            if (staticAIs.includes(id)) {
+                const card = document.querySelector(`.ai-card[data-target="${id}"]`);
+                const name = card ? (card.querySelector('h3')?.textContent || id) : id;
+                const wv = document.getElementById(`wv-${id}`);
+                const url = wv ? wv.getAttribute('src') : '';
+                ai = { id, name, url: url || '', color: '#8b5cf6' } as any;
+            }
+        }
         if (ai) {
             this.view.openModal(ai, this.model.getCategories());
         }

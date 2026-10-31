@@ -74,9 +74,9 @@ export class AIModel {
         return this.customIAs.find(item => item.id === id);
     }
 
-    public add(name: string, url: string, color: string, iconBase64?: string, categoryId?: string): CustomAI {
-        const id = `custom-${Date.now()}`;
-        const newAI: CustomAI = { id, name, url, color, iconBase64, categoryId };
+    public add(name: string, url: string, color: string, iconBase64?: string, categoryId?: string, id?: string): CustomAI {
+        const newId = id || `custom-${Date.now()}`;
+        const newAI: CustomAI = { id: newId, name, url, color, iconBase64, categoryId };
         this.customIAs.push(newAI);
         this.save();
         return newAI;
@@ -95,6 +95,14 @@ export class AIModel {
             };
             this.save();
             return this.customIAs[index];
+        } else {
+            const staticAIs = ['deepseek', 'chatgpt', 'gemini', 'claude', 'kimi', 'copilot', 'canva', 'venturikit', 'perplexity', 'facebook', 'tiktok', 'instagram', 'x'];
+            if (staticAIs.includes(id)) {
+                const newAI: CustomAI = { id, name, url, color, iconBase64, categoryId };
+                this.customIAs.push(newAI);
+                this.save();
+                return newAI;
+            }
         }
         return undefined;
     }
