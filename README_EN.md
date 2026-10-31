@@ -2,6 +2,8 @@
 
 <div align="center">
   <a href="README.md">Español</a> | <b>English</b>
+  <br><br>
+  <img src="public/img-github/slide.gif" alt="Adam IA in action: Home, ChatGPT, Gemini and Claude" width="900">
 </div>
 
 **Adam IA** is a cross-platform desktop application designed to aggregate and organize your favorite Artificial Intelligence tools into a single, secure local control panel. The application allows you to chat independently with multiple AI platforms and link new custom assistants using their web URL address.

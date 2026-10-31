@@ -2,6 +2,8 @@
 
 <div align="center">
   <b>Español</b> | <a href="README_EN.md">English</a>
+  <br><br>
+  <img src="public/img-github/slide.gif" alt="Adam IA en acción: Inicio, ChatGPT, Gemini y Claude" width="900">
 </div>
 
 **Adam IA** es una aplicación de escritorio multiplataforma (Windows, macOS y Linux) que agrupa tus herramientas de Inteligencia Artificial favoritas en un único panel local y seguro. Cada plataforma corre en su propia sesión aislada, así que puedes tener abiertos ChatGPT, Gemini, Claude y más al mismo tiempo, cada uno con su cuenta, sin que se mezclen.
