@@ -2,55 +2,9 @@
 
 <div align="center">
   <b>Español</b> | <a href="README_EN.md">English</a>
-  <br><br>
-  <img src="public/img-github/slide.gif" alt="Adam IA en acción: Inicio, ChatGPT, Gemini y Claude" width="900">
-  <br><br>
-  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/latest">
-    <img src="https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Descargar para Windows">
-  </a>
-  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/latest">
-    <img src="https://img.shields.io/badge/macOS_(Apple_Silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Descargar para Mac Apple Silicon">
-  </a>
-  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/latest">
-    <img src="https://img.shields.io/badge/macOS_(Intel)-555555?style=for-the-badge&logo=apple&logoColor=white" alt="Descargar para Mac Intel">
-  </a>
-  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/latest">
-    <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Descargar para Linux">
-  </a>
 </div>
 
 **Adam IA** es una aplicación de escritorio multiplataforma (Windows, macOS y Linux) que agrupa tus herramientas de Inteligencia Artificial favoritas en un único panel local y seguro. Cada plataforma corre en su propia sesión aislada, así que puedes tener abiertos ChatGPT, Gemini, Claude y más al mismo tiempo, cada uno con su cuenta, sin que se mezclen.
-
----
-
-## 📑 Índice
-
-- [Capturas de pantalla](#-capturas-de-pantalla)
-- [Características](#-características)
-- [Plataformas incluidas](#-plataformas-incluidas)
-- [Cómo instalar](#-cómo-instalar)
-- [Guía de uso](#-guía-de-uso)
-- [Para desarrolladores](#-para-desarrolladores)
-- [Arquitectura del proyecto](#-arquitectura-del-proyecto)
-- [Cómo funciona por dentro](#-cómo-funciona-por-dentro)
-- [Solución de problemas](#-solución-de-problemas)
-- [Requisitos del sistema](#-requisitos-del-sistema)
-- [Licencia](#-licencia)
-
----
-
-## 🖼️ Capturas de pantalla
-
-<table>
-  <tr>
-    <td align="center"><b>Inicio</b><br><img src="public/img-github/home.png" alt="Pantalla de inicio" width="420"></td>
-    <td align="center"><b>ChatGPT</b><br><img src="public/img-github/chatgpt.png" alt="ChatGPT dentro de Adam IA" width="420"></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Gemini</b><br><img src="public/img-github/gemini.png" alt="Gemini dentro de Adam IA" width="420"></td>
-    <td align="center"><b>Claude</b><br><img src="public/img-github/claude.png" alt="Claude dentro de Adam IA" width="420"></td>
-  </tr>
-</table>
 
 ---
 

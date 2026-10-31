@@ -2,18 +2,6 @@
 
 <div align="center">
   <a href="README.md">Español</a> | <b>English</b>
-  <br><br>
-  <img src="./home.png.jpg" alt="Adam IA Dashboard" width="800">
-  <br><br>
-  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA.Setup.1.0.7.exe">
-    <img src="https://img.shields.io/badge/Windows-0078D4?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows">
-  </a>
-  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA-1.0.7-arm64.dmg">
-    <img src="https://img.shields.io/badge/macOS_(Apple_Silicon)-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download for Mac Apple Silicon">
-  </a>
-  <a href="https://github.com/edaniel-valencia/Adam-IA/releases/download/1.0.7/Adam.IA-1.0.7.dmg">
-    <img src="https://img.shields.io/badge/macOS_(Intel)-555555?style=for-the-badge&logo=apple&logoColor=white" alt="Download for Mac Intel">
-  </a>
 </div>
 
 **Adam IA** is a cross-platform desktop application designed to aggregate and organize your favorite Artificial Intelligence tools into a single, secure local control panel. The application allows you to chat independently with multiple AI platforms and link new custom assistants using their web URL address.
